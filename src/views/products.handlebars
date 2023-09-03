@@ -1,0 +1,11 @@
+{{> userInfo user=user }}
+
+{{#if products.length}}
+    {{#each products}}
+        <ul>
+            <li>{{title}}</li>
+        </ul>
+    {{/each}}
+    {{else}}
+        <p>No hay productos</p>
+{{/if}}
