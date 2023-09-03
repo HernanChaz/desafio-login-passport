@@ -6,6 +6,7 @@ import { __dirname, mongoStoreOptions } from './utils.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import morgan from 'morgan';
 import { Server } from 'socket.io';
+import 'dotenv/config';
 
 /* ---------------------------------- rutas --------------------------------- */
 import productRouter from './routes/products.router.js';
@@ -53,7 +54,7 @@ app.use('/users', userRouter);
 app.use('/api/products', productRouter);
 app.use('/api/carts', cartRouter);
 
-const PORT = 8080;
+const PORT = process.env.PORT;
 
 const httpServer = app.listen(PORT, ()=>{
     console.log(`Server ok on port ${PORT}`);

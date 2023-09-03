@@ -1,13 +1,16 @@
 import passport from 'passport';
 import { Strategy as GithubStrategy } from 'passport-github2';
+import 'dotenv/config';
 import UserDao from '../daos/mongodb/user.dao.js';
 
 const userDao = new UserDao();
 
+const PORT = process.env.PORT;
+
 const strategyOptions = {
-    clientID: 'Iv1.ac91125595383709',
-    clientSecret: 'd6d0cfe8b8914aabecf3fd2597d2a7dc50901c74',
-    callbackURL: 'http://localhost:8080/users/profile-github',
+    clientID: process.env.GITHUB_CLIENT_ID,
+    clientSecret: process.env.GITHUB_CLIENT_SECRET,
+    callbackURL: `http://localhost:${PORT}/users/profile-github`,
 };
 
 const registerOrLogin = async (accessToken, refreshToken, profile, done) => {

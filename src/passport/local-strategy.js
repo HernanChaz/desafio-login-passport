@@ -16,7 +16,7 @@ const register = async(req, email, password, done) => {
         // const { first_name, last_name,... } = req.body
         const user = await userDao.getByEmail(email);
         if (user) return done(null, false);
-        const newUser = await userDao.register(req.body);
+        const newUser = await userDao.registerUser(req.body);
         return done(null, newUser);
     } catch (error) {
         console.log(error);
@@ -27,9 +27,7 @@ const register = async(req, email, password, done) => {
 /* ------------------------------ lógica login ------------------------------ */
 const login = async(req, email, password, done) => {
     try {
-        const user = { email, password };
-        console.log('USER', user);
-        const userLogin = await userDao.login(user);
+        const userLogin = await userDao.loginUser(email, password);
         console.log('LOGIN', userLogin);
         if(!userLogin) return done(null, false, { message: 'User not found' });
         return done(null, userLogin);
@@ -50,10 +48,13 @@ passport.use('register', registerStrategy);
 //guarda al usuario en req.session.passport
 //req.session.passport.user --> id del usuario
 passport.serializeUser((user, done)=>{
-    done(null, user._id)
+    done(null, user._id);
+    //console.log("user._id -> ", user._id); //user._id ->  new ObjectId("64e56013c2fdd8c7f0e480ce")
 });
 
 passport.deserializeUser(async(id, done)=> {
+    console.log("id ->", id); //id -> 64e56013c2fdd8c7f0e480ce
+    console.log("typeof(id) -> ", typeof(id));
     const user = await userDao.getById(id);
     return done(null, user);
 });

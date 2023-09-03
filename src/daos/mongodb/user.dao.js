@@ -39,4 +39,15 @@ export default class UserDao {
             console.log(error);
         }
     };
+
+    async getById(id) {
+        try {
+            console.log("{ id } -> ", { id });
+            const userExist = await UserModel.findById({ id });
+            if(userExist) return userExist;
+            else return false;
+        } catch (error) {
+            console.log(error);
+        }
+    };
 }
