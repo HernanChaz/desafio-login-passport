@@ -1,8 +1,13 @@
 import * as service from '../services/productServices.js';
+import * as userService from '../services/userServices.js';
 
 export const getAll = async (req, res, next) => {
     try {
-        const user = req.session.user;
+        const userID = req.session.passport.user;
+        const userDB = await userService.getById(userID);
+        console.log("user -> " + userDB);
+        const user = userDB.toObject();
+
         const { page } = req.query;
         const {
           payload: products,

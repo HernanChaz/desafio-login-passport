@@ -33,7 +33,7 @@ export const logoutUser = async(req, res) => {
 
 export const githubResponse = async (req, res, next) => {
     try {
-      //console.log(req.user)
+      console.log("req.user ->", req.user)
       const { first_name, last_name, email, isGithub } = req.user;
       res.json({
         msg: "Register/Login Github OK",

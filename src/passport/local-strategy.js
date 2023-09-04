@@ -28,7 +28,7 @@ const register = async(req, email, password, done) => {
 const login = async(req, email, password, done) => {
     try {
         const userLogin = await userDao.loginUser(email, password);
-        console.log('LOGIN', userLogin);
+        req.session.user = userLogin;
         if(!userLogin) return done(null, false, { message: 'User not found' });
         return done(null, userLogin);
     } catch (error) {
@@ -49,12 +49,9 @@ passport.use('register', registerStrategy);
 //req.session.passport.user --> id del usuario
 passport.serializeUser((user, done)=>{
     done(null, user._id);
-    //console.log("user._id -> ", user._id); //user._id ->  new ObjectId("64e56013c2fdd8c7f0e480ce")
 });
 
 passport.deserializeUser(async(id, done)=> {
-    console.log("id ->", id); //id -> 64e56013c2fdd8c7f0e480ce
-    console.log("typeof(id) -> ", typeof(id));
     const user = await userDao.getById(id);
     return done(null, user);
 });

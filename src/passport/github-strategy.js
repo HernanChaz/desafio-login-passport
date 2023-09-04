@@ -14,17 +14,18 @@ const strategyOptions = {
 };
 
 const registerOrLogin = async (accessToken, refreshToken, profile, done) => {
-    //console.log('PROFILE --> ', profile);
+    console.log('PROFILE -> ', profile);
     const email = profile._json.email !== null ? profile._json.email : profile_json.blog;
 
     const user = await userDao.getByEmail( email );
 
     if ( user ) return done( null, user );
 
-    const newUser = await userDao.register({
+    const newUser = await userDao.registerUser({
         first_name: profile._json.name.split(' ')[0],
         last_name: profile._json.name.split(' ')[1],
         email,
+        age:0,
         password: '',
         isGithub: true
     });
